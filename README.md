@@ -1,13 +1,69 @@
 # CyberTalent CTF 2017 Write-ups
 I'm using Ubuntu 16.04 for most of these terminal commands. I assume that
 it is installed on the system so I don't have to keep putting in
-`sudo apt-get install <x>` everywhere.
+`sudo apt-get install <x>` everywhere. Time represented in the write-ups are
+arbitrary. Since this was a take-home qualification round, a lot of time was
+spent out with my family or doing something else. I took lots of break.
 
 ## This is Sparta
 
 __(Easy, 50 pts, Web Security)__
 
-TODO
+The very first problem showed a website. Pretty innocent, if you ask me:
+
+![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/sparta.png)
+
+So, a username and password box. Trying `admin` and `admin123` returned wrong
+user or password. Obviously, the first place to check is the source. Oh look:
+a nicely mangled JS block. I took the script out and prettified it:
+
+    var _0xae5b = [
+      "\x76\x61\x6C\x75\x65",
+      "\x75\x73\x65\x72",
+      "\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64",
+      "\x70\x61\x73\x73",
+      "\x43\x79\x62\x65\x72\x2d\x54\x61\x6c\x65\x6e\x74",
+      "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x43\x6F\x6E\x67\x72\x61\x74\x7A\x20\x0A\x0A",
+      "\x77\x72\x6F\x6E\x67\x20\x50\x61\x73\x73\x77\x6F\x72\x64"
+    ];
+
+    function check() {
+        var _0xeb80x2 = document[_0xae5b[2]](_0xae5b[1])[_0xae5b[0]];
+        var _0xeb80x3 = document[_0xae5b[2]](_0xae5b[3])[_0xae5b[0]];
+        if (_0xeb80x2 == _0xae5b[4] && _0xeb80x3 == _0xae5b[4]) {
+            alert(_0xae5b[5]);
+        } else {
+            alert(_0xae5b[6]);
+        }
+    }
+
+Nice, these cryptic hexes are just strings IRL so let's take a look at it in
+the console:
+
+    > _0xae5b[0]
+    "value"
+    > _0xae5b[1]
+    "user"
+    > _0xae5b[2]
+    "getElementById"
+    > _0xae5b[3]
+    "pass"
+    > _0xae5b[4]
+    "Cyber-Talent"
+    > _0xae5b[5]
+    "                      Congratz
+
+    "
+    > _0xae5b[6]
+    "wrong password"
+
+Okay, clearly it's checking the values of the fields. According to the `if`
+statement, both of the fields need to equal `_0xae5b[4]` which is
+`Cyber-Talent`. Okay, let's put that in and we get our flag.
+
+![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/js_awesome.png)
+
+`{J4V4_Scr1Pt_1S_Aw3s0me}` indeed.
 
 ## Search in Trash
 
