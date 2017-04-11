@@ -5,6 +5,17 @@ it is installed on the system so I don't have to keep putting in
 arbitrary. Since this was a take-home qualification round, a lot of time was
 spent out with my family or doing something else. I took lots of break.
 
+### Sections:
+
+- [This is Sparta][https://github.com/syaffers/ct2017quals-write-ups#this-is-sparta]
+- [Search in Trash][https://github.com/syaffers/ct2017-write-ups#search-in-trash]
+- [Pure Luck][https://github.com/syaffers/ct2017-write-ups#pure-luck]
+- [Post Number][https://github.com/syaffers/ct2017-write-ups#post-number]
+- [Message in a Bottle][https://github.com/syaffers/ct2017-write-ups#message-in-a-bottle]
+- [Intercept][https://github.com/syaffers/ct2017-write-ups#intercept]
+- [Get rid of them all][https://github.com/syaffers/ct2017-write-ups#get-rid-of-them-all]
+
+
 ## This is Sparta
 
 __(Easy, 50 pts, Web Security)__
@@ -125,6 +136,7 @@ are more data:
     553468        0x871FC         ELF, 32-bit LSB no machine, (SYSV)
     557098        0x8802A         Unix path: /sysdeps/unix/sysv/linux/dl-origin.c
 
+
 Okay, some stuff going on here, so back to IDA Pro for analysis. On decompiling
 the main, I saw a bunch of variables which have static values:
 
@@ -155,12 +167,14 @@ the main, I saw a bunch of variables which have static values:
     v33 = 125;
     ...
 
+
 Hey, this looks like ASCII! Let's use python to just convert them one by one:
 
     >>> a = [102, 108, 97, 103, 123, 85, 80, 88, 95, 105, 115, 95, 115, 111, 95,
              101, 97, 97, 97, 97, 115, 121, 121, 125]
     >>> print("".join(map(chr, a)))
     flag{UPX_is_so_eaaaasyy}
+
 
 And done!
 
@@ -174,16 +188,16 @@ word, if you ask me) based on an image. The image didn't ring any of my bells
 but I know just the place to find original source images on the net:
 [TinEye](https://www.tineye.com/).
 
-Sorting by *Oldest* first returned a Flickr image by `ahmadmahmoudphotography`.
-So let's copy the post number, 5410375058, and paste it into the answer box.
-Nope, not it. Damn. Okay, could it be the post number assigned in the HTML? No,
-the values change when I scroll onto different photos.
+Sorting by *Oldest* first returned a Flickr image by `ahmedmahmoudphotography`.
+So let's copy the post number in the URL, 5410375058, and paste it into the
+answer box. Nope, not it. Damn. Okay, could it be the post number assigned in
+the HTML? No, the values change when I scroll onto different photos.
 
 After a few hours trying other challenges, I gave the description a second look
-and noticed that it mentions an address. At this point it clicked that it was
-mentioning a house address so I browse the album to find
-[this](https://goo.gl/xHRpCl) photo. And after putting in `11371` in the box,
-I finally got it.
+and noticed that it mentions an address. At this point it clicked that the
+problem mentioned looking for the address of the guy so I browse the album to
+find [this](https://goo.gl/xHRpCl) photo. And after putting in `11371` in the
+box, I finally got the flag.
 
 This has real-world implications as I've mentioned before: malicious people can
 find your original address if you're not careful through this method. Suffice to
@@ -201,6 +215,7 @@ forest for the trees. Let's start. We have a PNG image:
     $ file message-in-bottle.png
     message-in-bottle.png: PNG image data, 350 x 144, 8-bit/color RGB, non-interlaced
 
+
 Okay, that's fine, let's see if there is hidden information:
 
     $ binwalk message-in-bottle.png
@@ -208,6 +223,7 @@ Okay, that's fine, let's see if there is hidden information:
     --------------------------------------------------------------------------------
     0             0x0             PNG image, 350 x 144, 8-bit/color RGB, non-interlaced
     41            0x29            Zlib compressed data, best compression
+
 
 Nice! A Zlib compressed data, this must be what we're searching for. Let's
 extract using `binwalk -e message-in-bottle.png`. Inside the folder is a file
@@ -265,6 +281,7 @@ What? How? Why not? So, I ended up trying (more than) a few, to no avail:
     flag{MANINTHEMIDDLE}
     ...
 
+
 You get the idea. So I thought, meh it's 25 points, who cares. Towards the
 deadline, desperation ensues, I tried other possibilities like `interception`
 or `sniffing` but I just had a hunch. I took one last stab with man in the
@@ -299,6 +316,7 @@ relatively quickly. So we're presented with a JAR file, which just spouts
     $ java -jar get-rid-of-them.jar
     No
 
+
 Okay grumpy cat. Let's take you apart. I used
 [this tool](http://www.javadecompilers.com/) to decompile the JAR and got two
 files:
@@ -307,13 +325,15 @@ files:
     -rw-rw-r-- 1 syafiq syafiq  834 Apr  7 21:04 Ctf.java
     -rw-rw-r-- 1 syafiq syafiq  948 Apr  8 10:45 ooo.java
 
+
 Nothing suspicious, let's look inside `Ctf.java`. There is a line of code which
 was particularly interesting:
 
     # Ctf.java
     ...
-    static String flag = "&^&@|* Zm}&,);\\('))[\\[$ *truncated* ...
+    static String flag = "&^&@|* Zm}&,);\\('))[\\[$`|_^#(x*]>&hZ)'$ $#(: [$3;&$t \\_']?&>,&i)!QG{`- ,% ~<`._@'::_\\_{}-|_[&{<`~$) ?'?(!$,.{>? @!^:#|R,?')`[,`;?!f_:$$<)Y}$:[|^?2)_h&><.:.-{&[|&A\\*;*)-($.>>(<^';#Q@?,,H\\`|)$ <):@(;}?-[~(&)>>*)(~)`$:[;>!.&%<!.>~ %J}*zX:(&:~:<0)*>(B(!?.#@A*<*{-,[Q@{%!~)~-~:@:#|![>)]?];H;$-<}>!@~)<<) \\_!|]#,&!,@>\\[]|J ]\\^[?>$|$?'|,#.)$l[^@X.~! \\;0-&,;,!['@[J*~#`AQ[*&%<,~]?~_^~(;}\\$>)[&@) (]}];;*^<)''@\\E[.@! B*.<-A-,:-#`-.}<-|)^Z@](?;H >-}.%.?}@<!())0] <&=@(<*$\\(("
     ...
+
 
 Alright, this is interesting but seems like jumbled mess. Let's look further:
 
@@ -331,14 +351,16 @@ Alright, this is interesting but seems like jumbled mess. Let's look further:
     }
     ...
 
+
 Okay, the `main` prints `No` if we try to run it with fewer than 10 arguments.
 Otherwise it will print out the flag modified by this `ooo` object. Let's first
 run the JAR with ten zeros:
 
     $ java -jar get-rid-of-them.jar 0 0 0 0 0 0 0 0 0 0
-    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$ *truncated* ...
+    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$3;&$t \_']?&>,&i)!QG{`- ,% ~<`._@'::_\_{}-|_[&{<`~$) ?'?(!$,.{>? @!^:#|R,?')`[,`;?!f_:$$<)Y}$:[|^?2)_h&><.:.-{&[|&A\*;*)-($.>>(<^';#Q@?,,H\`|)$ <):@(;}?-[~(&)>>*)(~)`$:[;>!.&%<!.>~ %J}*zX:(&:~:<0)*>(B(!?.#@A*<*{-,[Q@{%!~)~-~:@:#|![>)]?];H;$-<}>!@~)<<) \_!|]#,&!,@>\[]|J ]\^[?>$|$?'|,#.)$l[^@X.~! \;0-&,;,!['@[J*~#`AQ[*&%<,~]?~_^~(;}\$>)[&@) (]}];;*^<)''@\E[.@! B*.<-A-,:-#`-.}<-|)^Z@](?;H >-}.%.?}@<!())0] <&=@(<*$\((
     Wrong argsssss
-    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$ *truncated* ...
+    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$3;&$t \_']?&>,&i)!QG{`- ,% ~<`._@'::_\_{}-|_[&{<`~$) ?'?(!$,.{>? @!^:#|R,?')`[,`;?!f_:$$<)Y}$:[|^?2)_h&><.:.-{&[|&A\*;*)-($.>>(<^';#Q@?,,H\`|)$ <):@(;}?-[~(&)>>*)(~)`$:[;>!.&%<!.>~ %J}*zX:(&:~:<0)*>(B(!?.#@A*<*{-,[Q@{%!~)~-~:@:#|![>)]?];H;$-<}>!@~)<<) \_!|]#,&!,@>\[]|J ]\^[?>$|$?'|,#.)$l[^@X.~! \;0-&,;,!['@[J*~#`AQ[*&%<,~]?~_^~(;}\$>)[&@) (]}];;*^<)''@\E[.@! B*.<-A-,:-#`-.}<-|)^Z@](?;H >-}.%.?}@<!())0] <&=@(<*$\((
+
 
 Okay, looks like there's more to this. Let's look into that `ooo`.java file.
 
@@ -376,6 +398,7 @@ Okay, looks like there's more to this. Let's look into that `ooo`.java file.
       return temp;
     }
 
+
 So the `_1` function tries to decode a base 64 string which is the flag after
 some modification by the `_2` function. I was too lazy to follow the `_2`
 function thoroughly but based on the simplicity of the `_2` function, I thought
@@ -386,6 +409,7 @@ the base 64 characters only:
     >>> b64only = list(filter(lambda x: x in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", a))
     >>> print(base64.b64decode("".join(b64only)))
     flag{b@d_ch@@rs_@@@re_B@@@@d}
+
 
 And that was it. I guess my brain found a shortcut as it was scanning through
 the `_2` code, can't really say how.
