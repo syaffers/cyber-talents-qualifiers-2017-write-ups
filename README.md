@@ -140,7 +140,7 @@ __(Easy, 50 pts, Digital Forensics)__
 I hated this one, simply because it was a prime example of me not seeing the
 forest for the trees. Let's start. We have a PNG image:
 
-![The rabbit hole][rh]
+![The rabbit hole](https://github.com/syaffers/ct2017quals-write-ups/raw/master/message-in-bottle.png)
 
     $ file message-in-bottle.png
     message-in-bottle.png: PNG image data, 350 x 144, 8-bit/color RGB, non-interlaced
@@ -163,7 +163,7 @@ This is obviously a white background on some image! So I pulled up Python and
 using `numpy` and `matplotlib`, I reconstructed the image. I figured out proper
 dimensions for the image and blah blah blah and ultimately got the image below:
 
-![Are you kidding me?][km]
+![Are you kidding me?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/u_kidding_me.png)
 
 After a moment pondering about self-reference (and my existence), I thought:
 well, that's not helpful. It's got these black lines of different intensity
@@ -179,7 +179,7 @@ in the face for so many times, this was indeed the right way to go. I tried
 `steghide` but it's only for JPG. `stegsolve` was just too weird to use.
 Desperately, I tried `openstego` and got the following error:
 
-![I finally have you!][gc]
+![I finally have you!](https://github.com/syaffers/ct2017quals-write-ups/raw/master/gotcha.png)
 
 After trying an older version (`v0.6.1`), I got the flag `Flag{701_L@b$_CTF0}`.
 Honestly, I've learned now that always try to try tools first before going off
@@ -198,7 +198,7 @@ intercepting data between two transacting parties. Obviously this is the
 notorious man-in-the-middle attack. So let's put that in the answer. __RED__,
 wrong!
 
-What? How? Why not? So, I ended up trying (more than) a few:
+What? How? Why not? So, I ended up trying (more than) a few, to no avail:
 
     man_in_the_middle
     maninthemiddle
@@ -333,6 +333,3 @@ the base 64 characters only:
 
 And that was it. I guess my brain found a shortcut as it was scanning through
 the `_2` code, can't really say how.
-[rh]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/message-in-bottle.png
-[km]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/u_kidding_me.png
-[gc]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/gotcha.png
