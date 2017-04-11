@@ -7,13 +7,13 @@ spent out with my family or doing something else. I took lots of break.
 
 ### Sections:
 
-- [This is Sparta][https://github.com/syaffers/ct2017quals-write-ups#this-is-sparta]
-- [Search in Trash][https://github.com/syaffers/ct2017-write-ups#search-in-trash]
-- [Pure Luck][https://github.com/syaffers/ct2017-write-ups#pure-luck]
-- [Post Number][https://github.com/syaffers/ct2017-write-ups#post-number]
-- [Message in a Bottle][https://github.com/syaffers/ct2017-write-ups#message-in-a-bottle]
-- [Intercept][https://github.com/syaffers/ct2017-write-ups#intercept]
-- [Get rid of them all][https://github.com/syaffers/ct2017-write-ups#get-rid-of-them-all]
+- [This is Sparta](https://github.com/syaffers/ct2017quals-write-ups#this-is-sparta)
+- [Search in Trash](https://github.com/syaffers/ct2017quals-write-ups#search-in-trash)
+- [Pure Luck](https://github.com/syaffers/ct2017quals-write-ups#pure-luck)
+- [Post Number](https://github.com/syaffers/ct2017quals-write-ups#post-number)
+- [Message in a Bottle](https://github.com/syaffers/ct2017quals-write-ups#message-in-a-bottle)
+- [Intercept](https://github.com/syaffers/ct2017quals-write-ups#intercept)
+- [Get rid of them all](https://github.com/syaffers/ct2017quals-write-ups#get-rid-of-them-all)
 
 
 ## This is Sparta
