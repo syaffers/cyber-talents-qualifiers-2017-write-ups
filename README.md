@@ -99,13 +99,16 @@ According to the `if` statement, both of the fields need to equal
 
 __(Easy, 50 pts, Digital Forensics)__
 
-We are given some file, no extension. So let's `file` it:
+We are given some file called `search-trash`, no extension. So let's `file`
+it:
 
     $ file search-trash
     search-trash: Windows Recycle Bin INFO2 file (Win2k - WinXP)
 
-Okay, so it's an INFO2 recycle bin file, let's see if the flag is directly
-visible in the binary through strings:
+Okay, so it's an INFO2 recycle bin file. I'm not too sure what it is but after
+briefly looking at the file contents using `less`, there were several strings
+which are quite contiguous but the remainder were mainly binary values. Let's
+see if the flag is directly visible in the file using `strings`:
 
     $ strings search-trash
     ...
@@ -119,6 +122,7 @@ visible in the binary through strings:
     ...
 
 Yup, it's there, Ctrl-C, Ctrl-V and done.
+
 
 ## Pure Luck
 
