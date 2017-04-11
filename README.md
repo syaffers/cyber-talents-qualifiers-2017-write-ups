@@ -3,10 +3,16 @@ I'm using Ubuntu 16.04 for most of these terminal commands. I assume that
 it is installed on the system so I don't have to keep putting in
 `sudo apt-get install <x>` everywhere.
 
-## This is Sparta (Easy, 50 pts, Web Security)
+## This is Sparta
+
+__(Easy, 50 pts, Web Security)__
+
 TODO
 
-## Search in Trash (Easy, 50 pts, Digital Forensics)
+## Search in Trash
+
+__(Easy, 50 pts, Digital Forensics)__
+
 We are given some file, no extension. So let's `file` it:
 
     $ file search-trash
@@ -28,7 +34,10 @@ visible in the binary through strings:
 
 Yup, it's there, Ctrl-C, Ctrl-V and done.
 
-## Pure Luck (Basic, 25 pts, Malware Reverse Engineering)
+## Pure Luck
+
+__(Basic, 25 pts, Malware Reverse Engineering)__
+
 Again, unidentified file `pure-luck.out`. Upon `file`-ing it, it's an
 executable, but 32-bit, which can't be run on my 64-bit linux. No worries.
 Let's decompile it using IDA Pro. On viewing the pseudocode for main, I found
@@ -92,14 +101,17 @@ the main, I saw a bunch of variables which have static values:
 
 Hey, this looks like ASCII! Let's use python to just convert them one by one:
 
-    >>> a = [102,108,97,103,123,85,80,88,95,105,115,95,115,111,95,101,97,97,97,
-             97,115,121,121,125]
+    >>> a = [102, 108, 97, 103, 123, 85, 80, 88, 95, 105, 115, 95, 115, 111, 95,
+             101, 97, 97, 97, 97, 115, 121, 121, 125]
     >>> print("".join(map(chr, a)))
     flag{UPX_is_so_eaaaasyy}
 
 And done!
 
-## Post Number (Medium, 100 pts, Open Source Cyber Intelligence)
+## Post Number
+
+__(Medium, 100 pts, Open Source Cyber Intelligence)__
+
 I enjoyed this one, it was an internet-based goose-chase with real-world
 implications. Anyway, we are asked to find a __post number__ (super misleading
 word, if you ask me) based on an image. The image didn't ring any of my bells
@@ -121,9 +133,14 @@ This has real-world implications as I've mentioned before: malicious people can
 find your original address if you're not careful through this method. Suffice to
 say this challenge creeped me out.
 
-## Message in a Bottle (Easy, 50 pts, Digital Forensics)
+## Message in a Bottle
+
+__(Easy, 50 pts, Digital Forensics)__
+
 I hated this one, simply because it was a prime example of me not seeing the
-forest for the trees. Let's start. We get a PNG image, full details here:
+forest for the trees. Let's start. We have a PNG image:
+
+![The rabbit hole][rh]
 
     $ file message-in-bottle.png
     message-in-bottle.png: PNG image data, 350 x 144, 8-bit/color RGB, non-interlaced
@@ -141,28 +158,181 @@ extract using `binwalk -e message-in-bottle.png`. Inside the folder is a file
 called `29`. Interesting. Let's `strings` it... No good. What about the
 `hexdump`? Nothing. Wow, okay. All this for 50 pts? Never matter.
 
-Coming back after a while, I find that the values in the file are `0xff`
-inflated. This is obviously a white background on some image! So I pulled up
-python using `numpy` and `matplotlib` and reconstructed the image.
+Coming back after a while, I find that the values in `29` are `0xff` inflated.
+This is obviously a white background on some image! So I pulled up Python and
+using `numpy` and `matplotlib`, I reconstructed the image. I figured out proper
+dimensions for the image and blah blah blah and ultimately got the image below:
 
-Time went by as I did other challenges and figured out proper dimensions for
-the image and blah blah blah and ultimately got the image below:
+![Are you kidding me?][km]
 
-Well, that's not helpful.
+After a moment pondering about self-reference (and my existence), I thought:
+well, that's not helpful. It's got these black lines of different intensity
+values and didn't really provide any more information. Okay, let's see if we
+can't analyze the intensity for some data.
+
+__Time went waaay by. Like seriously, I wasted my time doing pointless analysis
+on this image__
+
+Towards the deadline, I decided that I'm done with this, I'm just going to use
+basic tools to see if I can get anything. And obviously, after shooting myself
+in the face for so many times, this was indeed the right way to go. I tried
+`steghide` but it's only for JPG. `stegsolve` was just too weird to use.
+Desperately, I tried `openstego` and got the following error:
+
+![I finally have you!][gc]
+
+After trying an older version (`v0.6.1`), I got the flag `Flag{701_L@b$_CTF0}`.
+Honestly, I've learned now that always try to try tools first before going off
+the deep-end and over-analyzing. __Breadth-first, over depth-first__.
 
 
+## Intercept
 
-## Dark Project (Medium, 100 pts, Web Security)
-TODO
+__(Basic, 25 pts, General Information)__
 
-## Get rid of them all (Easy, 50 pts, Malware Reverse Engineering)
-TODO
+Oh this one pissed me the hell off. Like really, guys at CyberTalents, you
+couldn't allow for multiple answers for questions like these? 😤
 
-## Hack the App (Hard, 200 pts, Malware Reverse Engineering)
-TODO
+So the description asks for a type of attack where there is a person
+intercepting data between two transacting parties. Obviously this is the
+notorious man-in-the-middle attack. So let's put that in the answer. __RED__,
+wrong!
 
-## Intercept (Basic, 25 pts, General Information)
-TODO
+What? How? Why not? So, I ended up trying (more than) a few:
 
-## They are many (Medium, 100 pts, Malware Reverse Engineering)
-TODO
+    man_in_the_middle
+    maninthemiddle
+    MANINTHEMIDDLE
+    flag{man in the middle}
+    flag{man_in_the_middle}
+    flag{maninthemiddle}
+    flag{MANINTHEMIDDLE}
+    ...
+
+You get the idea. So I thought, meh it's 25 points, who cares. Towards the
+deadline, desperation ensues, I tried other possibilities like `interception`
+or `sniffing` but I just had a hunch. I took one last stab with man in the
+middle.
+
+*Maybe this is it, maybe I can get it*. T minus 10 minutes.
+
+    Man In The Middle
+
+__RED__. Nope... T minus 9 minutes.
+
+    elddim eht ni nam
+
+__RED__. Yet again... T minus 8 minutes.
+
+    man+in+the+middle
+
+__RED__. Crap. T minus 7 minutes. Man in the middle... MITM. That's it!
+
+    mitm
+
+__GREEN__. My life was complete.
+
+
+## Get rid of them all
+
+__(Easy, 50 pts, Malware Reverse Engineering)__
+
+This one is really nice but maybe, due to a stroke of luck, I got this
+relatively quickly. So we're presented with a JAR file, which just spouts
+
+    $ java -jar get-rid-of-them.jar
+    No
+
+Okay grumpy cat. Let's take you apart. I used
+[this tool](http://www.javadecompilers.com/) to decompile the JAR and got two
+files:
+
+    $ ls -l
+    -rw-rw-r-- 1 syafiq syafiq  834 Apr  7 21:04 Ctf.java
+    -rw-rw-r-- 1 syafiq syafiq  948 Apr  8 10:45 ooo.java
+
+Nothing suspicious, let's look inside `Ctf.java`. There is a line of code which
+was particularly interesting:
+
+    # Ctf.java
+    ...
+    static String flag = "&^&@|* Zm}&,);\\('))[\\[$ *truncated* ...
+    ...
+
+Alright, this is interesting but seems like jumbled mess. Let's look further:
+
+    # Ctf.java
+    ...
+    public static void main(String[] args) {
+      if (args.length < 10) {
+        System.out.println("No");
+        return;
+      }
+      ooo o = new ooo();
+      flag = o._2(flag, args);
+      System.out.println(flag);
+      System.out.println(o._1(flag));
+    }
+    ...
+
+Okay, the `main` prints `No` if we try to run it with fewer than 10 arguments.
+Otherwise it will print out the flag modified by this `ooo` object. Let's first
+run the JAR with ten zeros:
+
+    $ java -jar get-rid-of-them.jar 0 0 0 0 0 0 0 0 0 0
+    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$ *truncated* ...
+    Wrong argsssss
+    &^&@|* Zm}&,);\('))[\[$`|_^#(x*]>&hZ)'$ $#(: [$ *truncated* ...
+
+Okay, looks like there's more to this. Let's look into that `ooo`.java file.
+
+    public String _1(String a) {
+      try {
+        return new String(Base64.getDecoder().decode(a));
+      }
+      catch (Exception e) {
+        System.out.println("Wrong argsssss");
+        System.out.println(a);
+      }
+      return "";
+    }
+
+    public String _2(String a, String[] b) {
+      String temp = "";
+      int i = 0;
+      int j = 0;
+      boolean bad = false;
+
+      while (i != a.length()) {
+        j = 0;
+        bad = false;
+
+        while (j != b.length) {
+          if (a.charAt(i) == Integer.parseInt(b[j]))
+            bad = true;
+          j++;
+        }
+
+        if (!bad)
+          temp = temp + a.charAt(i);
+        i++;
+      }
+      return temp;
+    }
+
+So the `_1` function tries to decode a base 64 string which is the flag after
+some modification by the `_2` function. I was too lazy to follow the `_2`
+function thoroughly but based on the simplicity of the `_2` function, I thought
+of just removing all the unnecessary characters from the original flag, leaving
+the base 64 characters only:
+
+    >>> a = "&^&@|* Zm}&,);\\('))[\\[$`|_^#(x*]>&hZ)'$ *truncated* ...
+    >>> b64only = list(filter(lambda x: x in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", a))
+    >>> print(base64.b64decode("".join(b64only)))
+    flag{b@d_ch@@rs_@@@re_B@@@@d}
+
+And that was it. I guess my brain found a shortcut as it was scanning through
+the `_2` code, can't really say how.
+[rh]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/message-in-bottle.png
+[km]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/u_kidding_me.png
+[gc]: https://github.com/syaffers/ct2017quals-write-ups/raw/master/gotcha.png
