@@ -236,8 +236,8 @@ Suffice to say this challenge creeped me out.
 
 __(Easy, 50 pts, Digital Forensics)__
 
-I hated this one, simply because it was a prime example of me not seeing the
-forest for the trees. Let's start. We have a PNG image:
+I hated myself for this one, simply because it was a prime example of me not
+seeing the forest for the trees. Let's start. We have a PNG image:
 
 ![The rabbit hole](https://github.com/syaffers/ct2017quals-write-ups/raw/master/message-in-bottle.png)
 
@@ -268,11 +268,11 @@ dimensions for the image and blah blah blah and ultimately got the image below:
 
 After a moment pondering about self-reference (and my existence), I thought:
 well, that's not helpful. It's got these black lines of different intensity
-values and didn't really provide any more information. Okay, let's see if we
-can't analyze the intensity for some data.
+values which resembled the original image and didn't really provide any more
+information. Okay, let's see if we can't analyze the intensity for some data.
 
-__Time went waaay by. Like seriously, I wasted my time doing pointless analysis
-on this image__
+__Time went waaay by. Like seriously, I wasted my time doing pointless
+numerical analysis on this image__
 
 Towards the deadline, I decided that I'm done with this, I'm just going to use
 basic tools to see if I can get anything. And obviously, after shooting myself
@@ -328,7 +328,7 @@ __RED__. Yet again... T minus 8 minutes.
 
     man+in+the+middle
 
-__RED__. Crap. T minus 7 minutes. Man in the middle... MITM. That's it!
+__RED__. Crap. T minus 7 minutes. Man in the middle... MITM.
 
     mitm
 
@@ -429,12 +429,13 @@ Okay, looks like there's more to this. Let's look into that `ooo`.java file.
 
 
 So the `_1` function tries to decode a base 64 string which is the flag after
-some modification by the `_2` function. I was too lazy to follow the `_2`
-function thoroughly but based on the simplicity of the `_2` function, I thought
-of just removing all the unnecessary characters from the original flag, leaving
-the base 64 characters only:
+some processing by the `_2` function. I was too lazy to follow the `_2`
+function thoroughly but based on the simplicity of the `_2` function (since
+there are no values being edited, some some true/false flags), I thought
+of just removing all the unnecessary characters from the original flag and 
+leaving the base 64 characters only:
 
-    >>> a = "&^&@|* Zm}&,);\\('))[\\[$`|_^#(x*]>&hZ)'$ *truncated* ...
+    >>> a = "&^&@|* Zm}&,);\\('))[\\[$`|_^#(x*]>&hZ)'$ $#(: [$3;&$t \\_']?&>,&i)!QG{`- ,% ~<`._@'::_\\_{}-|_[&{<`~$) ?'?(!$,.{>? @!^:#|R,?')`[,`;?!f_:$$<)Y}$:[|^?2)_h&><.:.-{&[|&A\\*;*)-($.>>(<^';#Q@?,,H\\`|)$ <):@(;}?-[~(&)>>*)(~)`$:[;>!.&%<!.>~ %J}*zX:(&:~:<0)*>(B(!?.#@A*<*{-,[Q@{%!~)~-~:@:#|![>)]?];H;$-<}>!@~)<<) \\_!|]#,&!,@>\\[]|J ]\\^[?>$|$?'|,#.)$l[^@X.~! \\;0-&,;,!['@[J*~#`AQ[*&%<,~]?~_^~(;}\\$>)[&@) (]}];;*^<)''@\\E[.@! B*.<-A-,:-#`-.}<-|)^Z@](?;H >-}.%.?}@<!())0] <&=@(<*$\\(("
     >>> b64only = list(filter(lambda x: x in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", a))
     >>> print(base64.b64decode("".join(b64only)))
     flag{b@d_ch@@rs_@@@re_B@@@@d}
