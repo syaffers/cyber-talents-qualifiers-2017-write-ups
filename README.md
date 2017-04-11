@@ -143,6 +143,7 @@ on the file and found a nice signature appended at the end:
     0             0x0             ELF, 32-bit LSB executable, Intel 80386, version 1 (GNU/Linux)
     273112        0x42AD8         Copyright string: "Copyright (C) 1996-2016 the UPX Team. All Rights Reserved. $"
 
+
 Nice, some clue now: WTH is a UPX compression though? No matter, straight to
 Google and found a [repo](https://upx.github.io/) to decompress the file. Now,
 it seems like I've still got an executable, so `binwalk` again to see if there
@@ -209,24 +210,27 @@ __(Medium, 100 pts, Open Source Cyber Intelligence)__
 
 I enjoyed this one, it was an internet-based goose-chase with real-world
 implications. Anyway, we are asked to find a __post number__ (super misleading
-word, if you ask me) based on an image. The image didn't ring any of my bells
-but I know just the place to find original source images on the net:
-[TinEye](https://www.tineye.com/).
+word, if you ask me) based on an image. The image didn't ring any bells but
+the description did ask to find the original author of the image. I know just
+the place: [TinEye](https://www.tineye.com/). This service allows you to find
+the first instance of an image on the net.
 
-Sorting by *Oldest* first returned a Flickr image by `ahmedmahmoudphotography`.
-So let's copy the post number in the URL, 5410375058, and paste it into the
-answer box. Nope, not it. Damn. Okay, could it be the post number assigned in
-the HTML? No, the values change when I scroll onto different photos.
+By uploading the sample image and sorting by *oldest* first returned a
+Flickr site with image by `ahmedmahmoudphotography`. So let's copy the post
+number in the URL, 5410375058, and paste it into the answer box. Nope, not it.
+Damn. Okay, could it be the image id number/tags assigned in the HTML? No,
+the values change when I scroll onto different photos.
 
-After a few hours trying other challenges, I gave the description a second look
+After a few hours trying other challenges, I gave the description a fresh look
 and noticed that it mentions an address. At this point it clicked that the
-problem mentioned looking for the address of the guy so I browse the album to
-find [this](https://goo.gl/xHRpCl) photo. And after putting in `11371` in the
-box, I finally got the flag.
+problem mentioned looking for a physical house address of the guy so I browse
+the album to find [this photo](https://goo.gl/xHRpCl). And after putting in
+`11371` in the box, I finally got the flag.
 
-This has real-world implications as I've mentioned before: malicious people can
-find your original address if you're not careful through this method. Suffice to
-say this challenge creeped me out.
+This has real-world implications as I've mentioned before: malicious people
+can find your original address if you're not careful through this method.
+Suffice to say this challenge creeped me out.
+
 
 ## Message in a Bottle
 
