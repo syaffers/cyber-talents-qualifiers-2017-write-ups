@@ -128,12 +128,13 @@ Yup, it's there, Ctrl-C, Ctrl-V and done.
 
 __(Basic, 25 pts, Malware Reverse Engineering)__
 
-Again, unidentified file `pure-luck.out`. Upon `file`-ing it, it's an
-executable, but 32-bit, which can't be run on my 64-bit linux. No worries.
-Let's decompile it using IDA Pro. On viewing the pseudocode for main, I found
-some cryptic code which I couldn't bother to pursue.
+Again, we were presented with an unidentified file `pure-luck.out`. Upon
+`file`-ing it, it's seems to be an executable, but is 32-bit ELF, which can't
+be run on my 64-bit linux. No worries. Let's decompile it using IDA Pro. On
+viewing the pseudocode for main, I found some involved code which I couldn't
+be bothered to pursue.
 
-Back to the original file, for some clue. Somehow, I decided to do a `binwalk`
+Back to the original file for some clues. Somehow, I decided to do a `binwalk`
 on the file and found a nice signature appended at the end:
 
     $ binwalk pure-luck.out
@@ -160,8 +161,9 @@ are more data:
     557098        0x8802A         Unix path: /sysdeps/unix/sysv/linux/dl-origin.c
 
 
-Okay, some stuff going on here, so back to IDA Pro for analysis. On decompiling
-the main, I saw a bunch of variables which have static values:
+Okay, some more things going on here. I could've extracted the data but let's
+just see if IDA Pro shows something new. On decompiling the main, I saw a
+bunch of variables which have static values:
 
     ...
     v10 = 102;
@@ -193,13 +195,13 @@ the main, I saw a bunch of variables which have static values:
 
 Hey, this looks like ASCII! Let's use python to just convert them one by one:
 
-    >>> a = [102, 108, 97, 103, 123, 85, 80, 88, 95, 105, 115, 95, 115, 111, 95,
-             101, 97, 97, 97, 97, 115, 121, 121, 125]
+    >>> a = [102, 108, 97, 103, 123, 85, 80, 88, 95, 105, 115, 95, 115, 111, 95, 101, 97, 97, 97, 97, 115, 121, 121, 125]
     >>> print("".join(map(chr, a)))
     flag{UPX_is_so_eaaaasyy}
 
 
 And done!
+
 
 ## Post Number
 
