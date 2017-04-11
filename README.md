@@ -28,8 +28,9 @@ The very first problem showed a website. Pretty innocent, if you ask me:
 ![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/sparta.png)
 
 So, a username and password box. Trying `admin` and `admin123` returned wrong
-user or password. Obviously, the first place to check is the source. Oh look:
-a nicely mangled JS block. I took the script out and prettified it:
+user or password. Obviously, with these types of challenge, the first place to
+check is the source. Oh look: a nicely mangled JS block. I took the script
+out into my editor and prettified it:
 
     var _0xae5b = [
       "\x76\x61\x6C\x75\x65",
@@ -51,8 +52,8 @@ a nicely mangled JS block. I took the script out and prettified it:
         }
     }
 
-Nice, these cryptic hexes are just strings IRL so let's take a look at it in
-the console:
+Nice, these cryptic hexadecimal values are just strings actually so let's
+take a closer look at it in the console:
 
     > _0xae5b[0]
     "value"
@@ -71,13 +72,28 @@ the console:
     > _0xae5b[6]
     "wrong password"
 
-Okay, clearly it's checking the values of the fields. According to the `if`
-statement, both of the fields need to equal `_0xae5b[4]` which is
+Okay, clearly it's checking the values of the username and password fields.
+If we substitute the string values into the actual code, we should get the
+following:
+
+    function check() {
+        var _0xeb80x2 = document["getElementById"]("user")["value"];
+        var _0xeb80x3 = document["getElementById"]("pass")["value"];
+        if (_0xeb80x2 == "Cyber-Talent" && _0xeb80x3 == "Cyber-Talent") {
+            alert(_0xae5b[5]);
+        } else {
+            alert("wrong password");
+        }
+    }
+
+
+According to the `if` statement, both of the fields need to equal 
 `Cyber-Talent`. Okay, let's put that in and we get our flag.
 
 ![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/js_awesome.png)
 
 `{J4V4_Scr1Pt_1S_Aw3s0me}` indeed.
+
 
 ## Search in Trash
 
