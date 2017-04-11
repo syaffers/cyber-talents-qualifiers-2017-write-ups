@@ -1,9 +1,12 @@
-# CyberTalent CTF 2017 Write-ups
+# CyberTalents CTF 2017 Write-ups
+This is my second time doing CTFs so I thought I'd join the crowd and do a
+write-up.
+
 I'm using Ubuntu 16.04 for most of these terminal commands. I assume that
-it is installed on the system so I don't have to keep putting in
-`sudo apt-get install <x>` everywhere. Time represented in the write-ups are
-arbitrary. Since this was a take-home qualification round, a lot of time was
-spent out with my family or doing something else. I took lots of break.
+the commands are pre-installed on the system so I don't have to keep putting
+in `sudo apt-get install <x>` everywhere. Time represented in the write-ups
+are arbitrary. Since this was a take-home qualification round, a lot of time
+was spent out with my family or doing something else. I took lots of break.
 
 ### Sections:
 
