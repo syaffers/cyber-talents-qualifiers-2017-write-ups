@@ -23,14 +23,21 @@ was spent out with my family or doing something else. I took lots of break.
 
 __(Easy, 50 pts, Web Security)__
 
-The very first problem showed a website. Pretty innocent, if you ask me:
+The very first problem showed a
+[website](http://challengeselb-1810556849.us-west-2.elb.amazonaws.com/level1/).
+Pretty innocent, if you ask me:
 
 ![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/sparta.png)
 
-So, a username and password box. Trying `admin` and `admin123` returned wrong
+So, there is a username and password box and a hint: "Easier than Ableton"
+which didn't provide much info. Trying `admin` and `admin123` returned wrong
 user or password. Obviously, with these types of challenge, the first place to
-check is the source. Oh look: a nicely mangled JS block. I took the script
-out into my editor and prettified it:
+check is the source.
+
+![Sparta source page](https://github.com/syaffers/ct2017quals-write-ups/raw/master/sparta_src.png)
+
+Oh look: a nicely mangled JS block. I took the script out into my editor and
+prettified it:
 
     var _0xae5b = [
       "\x76\x61\x6C\x75\x65",
@@ -52,8 +59,8 @@ out into my editor and prettified it:
         }
     }
 
-Nice, these cryptic hexadecimal values are just strings actually so let's
-take a closer look at it in the console:
+By the looks of it, these cryptic hexadecimal values are just strings actually.
+So let's take a closer look at it in the console:
 
     > _0xae5b[0]
     "value"
@@ -87,7 +94,7 @@ following:
     }
 
 
-According to the `if` statement, both of the fields need to equal 
+According to the `if` statement, both of the fields need to equal
 `Cyber-Talent`. Okay, let's put that in and we get our flag.
 
 ![This is Sparta?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/js_awesome.png)
@@ -106,8 +113,8 @@ it:
     search-trash: Windows Recycle Bin INFO2 file (Win2k - WinXP)
 
 Okay, so it's an INFO2 recycle bin file. I'm not too sure what it is but after
-briefly looking at the file contents using `less`, there were several strings
-which are quite contiguous but the remainder were mainly binary values. Let's
+briefly looking at the file contents using `less`, there were several parts
+which are clearly strings but the remainder were mainly binary values. Let's
 see if the flag is directly visible in the file using `strings`:
 
     $ strings search-trash
@@ -256,13 +263,43 @@ Okay, that's fine, let's see if there is hidden information:
 
 Nice! A Zlib compressed data, this must be what we're searching for. Let's
 extract using `binwalk -e message-in-bottle.png`. Inside the folder is a file
-called `29`. Interesting. Let's `strings` it... No good. What about the
-`hexdump`? Nothing. Wow, okay. All this for 50 pts? Never matter.
+called `29`. Interesting. Let's `strings` it... No good. What about `less`?
+Cryptic. Wow, okay.
 
-Coming back after a while, I find that the values in `29` are `0xff` inflated.
-This is obviously a white background on some image! So I pulled up Python and
-using `numpy` and `matplotlib`, I reconstructed the image. I figured out proper
-dimensions for the image and blah blah blah and ultimately got the image below:
+After a while I thought of doing a `hexdump`:
+
+    0001b9e0: ffff ffff ffff ffff fffd ffff fdfb fdfa  ................
+    0001b9f0: fcfe fdfc fefd fcfc fcff fbee ffe7 c5da  ................
+    0001ba00: 915a e581 35ee 7e28 ee7e 28ee 7e28 ed7f  .Z..5.~(.~(.~(..
+    0001ba10: 2aed 7f2a ee7e 28ee 7e28 ed7f 26ed 7f26  *..*.~(.~(..&..&
+    0001ba20: ee7e 2aee 7e2a ee7e 28ee 7f26 ed7f 26ed  .~*.~*.~(..&..&.
+    0001ba30: 8025 f083 28e9 812a df7f 35e1 9a64 ffe7  .%..(..*..5..d..
+    0001ba40: d0ff fdf6 fdfe f9fc fffd ffff ffff ffff  ................
+    0001ba50: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001ba60: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001ba70: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001ba80: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001ba90: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001baa0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001bab0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001bac0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001bad0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001bae0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001baf0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+    0001bb00: ffff ffff ffff fffe ffff fdff feff fbf2  ................
+    0001bb10: fff6 e1ee b88a db7e 31f1 8024 f17f 29ed  .......~1..$..).
+    0001bb20: 7d27 ed7f 28ed 7f26 ee7e 2af0 7e28 ee7e  }'..(..&.~*.~(.~
+    0001bb30: 28ee 7f26 ee7e 28ee 7e28 ee7e 28ee 7e28  (..&.~(.~(.~(.~(
+    0001bb40: f07d 2aee 7e2a ed7d 29ec 7e27 eb7e 23da  .}*.~*.}).~'.~#.
+    0001bb50: 8336 ebbf 92ff fae6 fffb f5fe ffff fbfd  .6..............
+
+
+So I found that the values in `29` are `0xff` inflated but had other values
+in a relatively ordered fashion. This `0xff` values could be a white
+background on an image which contained the string itself.  So I pulled up
+Python and using `numpy` and `matplotlib`, I reconstructed the image. I
+figured out proper dimensions for the image and blah blah blah and ultimately
+got the image below:
 
 ![Are you kidding me?](https://github.com/syaffers/ct2017quals-write-ups/raw/master/u_kidding_me.png)
 
@@ -432,7 +469,7 @@ So the `_1` function tries to decode a base 64 string which is the flag after
 some processing by the `_2` function. I was too lazy to follow the `_2`
 function thoroughly but based on the simplicity of the `_2` function (since
 there are no values being edited, some some true/false flags), I thought
-of just removing all the unnecessary characters from the original flag and 
+of just removing all the unnecessary characters from the original flag and
 leaving the base 64 characters only:
 
     >>> a = "&^&@|* Zm}&,);\\('))[\\[$`|_^#(x*]>&hZ)'$ $#(: [$3;&$t \\_']?&>,&i)!QG{`- ,% ~<`._@'::_\\_{}-|_[&{<`~$) ?'?(!$,.{>? @!^:#|R,?')`[,`;?!f_:$$<)Y}$:[|^?2)_h&><.:.-{&[|&A\\*;*)-($.>>(<^';#Q@?,,H\\`|)$ <):@(;}?-[~(&)>>*)(~)`$:[;>!.&%<!.>~ %J}*zX:(&:~:<0)*>(B(!?.#@A*<*{-,[Q@{%!~)~-~:@:#|![>)]?];H;$-<}>!@~)<<) \\_!|]#,&!,@>\\[]|J ]\\^[?>$|$?'|,#.)$l[^@X.~! \\;0-&,;,!['@[J*~#`AQ[*&%<,~]?~_^~(;}\\$>)[&@) (]}];;*^<)''@\\E[.@! B*.<-A-,:-#`-.}<-|)^Z@](?;H >-}.%.?}@<!())0] <&=@(<*$\\(("
